@@ -1,7 +1,4 @@
 <?php
-// scrape_rideru.php
-
-// Optional: include your helpers or PDO here
 require 'function.php';
 
 libxml_use_internal_errors(true);
@@ -203,3 +200,4 @@ try {
     header('Content-Type: text/plain; charset=utf-8');
     echo "Error: " . $e->getMessage();
 }
+
