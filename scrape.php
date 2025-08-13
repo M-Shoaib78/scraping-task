@@ -1,7 +1,6 @@
 <?php
 require "db.php";
 
-// Debug helper
 function dd($data)
 {
     echo "<pre>";
@@ -10,7 +9,7 @@ function dd($data)
     die;
 }
 
-// Scrape jobs from one page
+
 function fetchJobPageHtml(string $agency, int $page = 1): string
 {
     $url = "https://www.schooljobs.com/careers/home/index?agency={$agency}&page={$page}&sort=PostingDate&isDescendingSort=true";
@@ -37,7 +36,6 @@ function fetchJobPageHtml(string $agency, int $page = 1): string
     return $response;
 }
 
-// Parse a job listing page and return array of jobs
 function parseJobsFromHtml(string $html): array
 {
     $dom = new DOMDocument();
@@ -79,7 +77,6 @@ function parseJobsFromHtml(string $html): array
     return $jobs;
 }
 
-// Insert or update job listings in DB
 function storeJobsInDatabase(array $jobs, PDO $pdo)
 {
     $stmt = $pdo->prepare("
@@ -107,7 +104,6 @@ function storeJobsInDatabase(array $jobs, PDO $pdo)
     }
 }
 
-// Main execution
 function scrapeAndStoreJobs(string $agency, int $maxPages, PDO $pdo)
 {
     $allJobs = [];
@@ -117,9 +113,10 @@ function scrapeAndStoreJobs(string $agency, int $maxPages, PDO $pdo)
         $jobs = parseJobsFromHtml($html);
         $allJobs = array_merge($allJobs, $jobs);
     }
-    dd($allJobs);
-    // storeJobsInDatabase($allJobs, $pdo);
+    dd($allJobs);//remove this line to make the code work
+    // storeJobsInDatabase($allJobs, $pdo);//uncomment this line to store in db 
 }
 
-// Run it
+
 scrapeAndStoreJobs('rideru', 3, $pdo);
+
